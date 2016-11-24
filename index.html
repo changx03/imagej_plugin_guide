@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Start up guide for ImageJ pulg-in</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/cerulean/bootstrap.min.css">
+    <link href="themes/prism.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="prism.js"></script>
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+        <a href="../" class="navbar-brand">Java Tutorial - <small>Using Maven to write plug-ins for ImageJ</small></a>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+    <div class="page-header" id="banner">
+        <div class="col-lg-12 col-md-12 col-sm-12">
+            <h1>How to setup ImageJ plug-in project in your favourite IDE?</h1>
+            <p class="lead">A guide to using ImageJ for soil science imaging analysis.</p>
+            <div class="row">
+                <div class="col-lg-1 col-md-2 col-sm-4">Author:</div>
+                <div class="col-lg-11 col-md-10 col-sm-8">Luke Xinglong Chang</div>
+            </div>
+            <div class="row">
+                <div class="col-lg-1 col-md-2 col-sm-4">Date:</div>
+                <div class="col-lg-11 col-md-10 col-sm-8">Nov, 2016</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Content starts from here!
+    ============================== -->
+    <div class="bs-docs-section">
+        
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="page-header">
+                    <h1 id="set-maven">Configure the Maven project</h1>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="bs-component">
+                    <h2>Find ImageJ from MVN Repository</h2>
+                    <p>You can easily setup an ImageJ project by using the <strong>Maven</strong> repository<br>In order to do this, include the code below inside the <abbr title="The Maven config file.">pom.xml</abbr> file. It is a rule of thumb to always check the <a href="https://mvnrepository.com/artifact/net.imagej/ij">Maven repository</a> and use the latest version of ImageJ.</p>
+                    <pre><code class="language-markup">
+&ltdependencies>
+&ltdependency>
+    &ltgroupId>net.imagej&lt/groupId>
+    &ltartifactId>ij&lt/artifactId>
+    &ltversion>1.50e&lt/version>
+&lt/dependency>
+&lt/dependencies>
+                    </code></pre>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="bs-component">
+                    <h2>Add other libraries</h2>
+                    <p>You can also include other libraries inside the <strong>dependencies</strong> section. I use <a href="https://mvnrepository.com/artifact/org.apache.commons/commons-math3">commons-math3</a> for matrix and regression.</p>
+                    <pre><code class="language-markup">
+&ltdependency>
+&ltgroupId>org.apache.commons&lt/groupId>
+&ltartifactId>commons-math3&lt/artifactId>
+&ltversion>3.6.1&lt/version>
+&lt/dependency>
+                    </code></pre>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="bs-component">
+                    <h2>Java delpoy configuration</h2>
+                    <p>After you compiled the project. You need to copy the <strong>JAR</strong> file into the <strong>[ImageJ_DIR]/plugins</strong> folder.<br>To ensure the JAR file works, your Java delpoy configureation should looks like the code below.<br>You can put any <strong>version</strong> number you like.<br>The <strong>description</strong> section is also optional.</p>
+                    <pre><code class="language-markup">
+&ltgroupId>sc.fiji&lt/groupId>
+&ltartifactId>imageJ_[YOUR_PLUG-IN_NAME_HERE]&lt/artifactId>
+&ltversion>0.0.1&lt/version>
+&ltpackaging>jar&lt/packaging>
+
+&ltname>plugins/[YOUR_PLUG-IN_NAME_HERE]&lt/name>
+&ltdescription>[THE DESCRIPTION OF YOUR PLUG-IN]&lt/description>
+                    </code></pre>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="bs-component">
+                    <h2>A full example</h2>
+                    <p>Here is a full example of <strong>pom.xml</strong> file.</p>
+                    <pre><code class="language-markup">
+&lt?xml version="1.0" encoding="UTF-8"?>
+&ltproject xmlns="http://maven.apache.org/POM/4.0.0" 
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+&ltmodelVersion>4.0.0&lt/modelVersion>
+
+&ltgroupId>sc.fiji&lt/groupId>
+&ltartifactId>imageJ_Multi_Region_Kriging_2D_x64_jre8&lt/artifactId>
+&ltversion>0.0.1&lt/version>
+&ltpackaging>jar&lt/packaging>
+
+&ltname>plugins/Multi_Region_Kriging_2D_&lt/name>
+&ltdescription>Multi-Region kriging works with bimodal and multi-modal xray ct-scan images&lt/description>
+
+&ltproperties>
+    &ltproject.build.sourceEncoding>UTF-8&lt/project.build.sourceEncoding>
+    &ltmaven.compiler.source>1.8&lt/maven.compiler.source>
+    &ltmaven.compiler.target>1.8&lt/maven.compiler.target>
+&lt/properties>
+
+&ltdependencies>
+    &ltdependency>
+        &ltgroupId>net.imagej&lt/groupId>
+        &ltartifactId>ij&lt/artifactId>
+        &ltversion>1.50e&lt/version>
+    &lt/dependency>
+    &ltdependency>
+        &ltgroupId>org.apache.commons&lt/groupId>
+        &ltartifactId>commons-math3&lt/artifactId>
+        &ltversion>3.6.1&lt/version>
+    &lt/dependency>
+&lt/dependencies>
+&lt/project>
+                    </code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="row">
+            <div class="col-lg-12">
+                <ul class="list-unstyled">
+                    <li class="pull-right"><a href="#top">Back to top</a></li>
+                    <li><a href="https://github.com/changx03/">GitHub</a></li>
+                </ul>
+                <p>Made by Luke Xinglong Chang. Contact him at <script type="text/javascript">var cc = new Array("luke", "x", "chang" + "@" + "gmail", "com").join(".");document.write("<a href=\"mail" + "to:" + cc + "\">" + cc + "</" + "a>");</script>.</p>
+                <p>Theme made by <a href="http://thomaspark.co" rel="nofollow">Thomas Park</a>. Based on <a href="http://getbootstrap.com" rel="nofollow">Bootstrap</a>. Icons from <a href="http://fortawesome.github.io/Font-Awesome/" rel="nofollow">Font Awesome</a>. Web fonts from <a href="http://www.google.com/webfonts" rel="nofollow">Google</a>.</p>
+            </div>
+        </div>
+    </footer>
+</div>
+
+</body>
+</html>
